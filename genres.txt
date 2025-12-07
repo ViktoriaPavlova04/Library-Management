@@ -1,0 +1,10 @@
+1;Fantasy
+2;Science Fiction
+3;Mystery
+4;Romance
+5;Horror
+6;Thriller
+7;Historical
+8;Biography
+9;Poetry
+10;Non-Fiction

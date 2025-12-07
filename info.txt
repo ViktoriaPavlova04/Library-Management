@@ -1,0 +1,11 @@
+Welcome to the Library Management System!
+Services:
+- View available books
+- Add new books and patrons
+- Return books
+- Check out books
+A patron cannot borrow a new book until he returns the one he has already borrowed.
+
+Special services:
+- Reserve a book that is currently checked out
+Special services are unlocked after every third returned book.
