@@ -1,30 +1,30 @@
-1;1984;George Orwell;1;0;15
-2;Brave New World;Aldous Huxley;1;0;12
-3;Fahrenheit 451;Ray Bradbury;1;0;10
-4;The Hobbit;J.R.R. Tolkien;2;0;8
-5;Harry Potter and the Sorcerer's Stone;J.K. Rowling;2;0;20
-6;The Lord of the Rings;J.R.R. Tolkien;2;0;18
-7;Dracula;Bram Stoker;3;0;7
-8;Frankenstein;Mary Shelley;3;0;9
-9;The Shining;Stephen King;3;0;14
-10;Pride and Prejudice;Jane Austen;4;0;11
-11;Emma;Jane Austen;4;0;6
-12;Jane Eyre;Charlotte Bronte;4;0;13
-13;Moby Dick;Herman Melville;5;0;5
-14;The Old Man and the Sea;Ernest Hemingway;5;0;8
-15;To Kill a Mockingbird;Harper Lee;5;0;17
-16;The Great Gatsby;F. Scott Fitzgerald;5;0;12
-17;War and Peace;Leo Tolstoy;6;0;4
-18;Anna Karenina;Leo Tolstoy;6;0;7
-19;Crime and Punishment;Fyodor Dostoevsky;6;0;9
-20;The Brothers Karamazov;Fyodor Dostoevsky;6;0;6
-21;The Catcher in the Rye;J.D. Salinger;5;0;10
-22;Lord of the Flies;William Golding;5;0;8
-23;Animal Farm;George Orwell;1;0;14
-24;The Chronicles of Narnia;C.S. Lewis;2;0;15
-25;The Lion, the Witch and the Wardrobe;C.S. Lewis;2;0;12
-26;Alice's Adventures in Wonderland;Lewis Carroll;2;0;9
-27;Wuthering Heights;Emily Bronte;4;0;7
-28;Great Expectations;Charles Dickens;4;0;10
-29;Oliver Twist;Charles Dickens;4;0;11
-30;Dr. Jekyll and Mr. Hyde;Robert Louis Stevenson;3;0;6
+1|1984|George Orwell|1|0|15
+2|Brave New World|Aldous Huxley|1|0|12
+3|Fahrenheit 451|Ray Bradbury|1|0|10
+4|The Hobbit|J.R.R. Tolkien|2|0|8
+5|Harry Potter and the Sorcerer's Stone|J.K. Rowling|2|0|20
+6|The Lord of the Rings|J.R.R. Tolkien|2|0|18
+7|Dracula|Bram Stoker|3|0|7
+8|Frankenstein|Mary Shelley|3|0|9
+9|The Shining|Stephen King|3|0|14
+10|Pride and Prejudice|Jane Austen|4|0|11
+11|Emma|Jane Austen|4|0|6
+12|Jane Eyre|Charlotte Bronte|4|0|13
+13|Moby Dick|Herman Melville|5|0|5
+14|The Old Man and the Sea|Ernest Hemingway|5|0|8
+15|To Kill a Mockingbird|Harper Lee|5|0|17
+16|The Great Gatsby|F. Scott Fitzgerald|5|0|12
+17|War and Peace|Leo Tolstoy|6|0|4
+18|Anna Karenina|Leo Tolstoy|6|0|7
+19|Crime and Punishment|Fyodor Dostoevsky|6|0|9
+20|The Brothers Karamazov|Fyodor Dostoevsky|6|0|6
+21|The Catcher in the Rye|J.D. Salinger|5|0|10
+22|Lord of the Flies|William Golding|5|0|8
+23|Animal Farm|George Orwell|1|0|14
+24|The Chronicles of Narnia|C.S. Lewis|2|0|15
+25|The Lion, the Witch and the Wardrobe|C.S. Lewis|2|0|12
+26|Alice's Adventures in Wonderland|Lewis Carroll|2|0|9
+27|Wuthering Heights|Emily Bronte|4|0|7
+28|Great Expectations|Charles Dickens|4|0|10
+29|Oliver Twist|Charles Dickens|4|0|11
+30|Dr. Jekyll and Mr. Hyde|Robert Louis Stevenson|3|0|6
