@@ -170,13 +170,14 @@ bool HandleUserActions(void)
         {
             if(!IsBookChekedOut(bookId) && FindIfIsPatronTurnToBorrowReservedBook(bookId, patron->Id))
             {
-                printf("You can check out the book you have reserved.");
+                printf("You can check out the book you have reserved.\n");
                 char result = get_char("Do you want to check out the reserved book? (y/n): \n");
 
                 if(result == 'y')
                 {
                     string bookTitle = GetBookTitle(bookId);
                     CheckOutBook(bookTitle, patron);
+                    RemoveReservation(bookId, patron->Id);
                 }
             }
         }
@@ -397,7 +398,7 @@ bool FindIfBookExists(string bookTitle)
 
 void CheckOutBook(string bookTitle, struct Patron *patron)
 {
-    if(!patron->HasCheckedOutBook)
+    if(patron->HasCheckedOutBook)
     {
         printf("First you must return the book you have borrowed and then you can borrow other book\n");
         return;
@@ -546,7 +547,7 @@ void ShowBooksByGenreName(void)
     {
         if(books[i].GenreId == genreId)
         {
-            printf("Book Title: %s - Author: %s", books[i].BookTitle, books[i].Author);
+            printf("Book Title: %s - Author: %s \n", books[i].BookTitle, books[i].Author);
         }
     }
 }
