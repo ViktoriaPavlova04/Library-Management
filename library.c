@@ -103,19 +103,20 @@ void FreeGenres(struct Genre genresArray[], int count);
 void FreeBooks(struct Book booksArray[], int count);
 void FreePatrons(struct Patron patronsArray[], int count);
 
-//Помощен метод за копиране на string от тектовите документи
+//Помощен метод за копиране на string от текстовите документи
 char* my_strdup(const char* s);
 
+//Основен метод
 int main(void)
 {
+    //Зареждаме всички данни от тесктовите документи
     if(!LoadGenres() || !LoadBooks() || !LoadPatrons() || !LoadReservations())
     {
         printf("Error: Could not open one or more of the text files for reading.\n");
         EndProgram();
         return 1;
     }
-    //printf("patronsCount = %s\n", patrons[0].PatronName);
-
+    //Зареждаме информационен текст
     if(!ShowInfo())
     {
         printf("The information file cannot be found.\n");
@@ -123,6 +124,7 @@ int main(void)
         return 1;
     }
 
+    //Цикъл, който преизпълнява функциите си при всяка успешна операция
     while(true)
     {
         bool result = HandleUserActions();
@@ -132,6 +134,7 @@ int main(void)
         }
     }
 
+    //Запаметяваме данните в текстовите документи
     if(!SaveBooks() || !SavePatrons() || !SaveReservations(reservations, reservationsCount))
     {
         printf("Error: Could not open one or more of the text files for writing.\n");
@@ -139,6 +142,7 @@ int main(void)
         return 1;
     }
 
+    //Зачистваме паметта (единствено масивите, който в себе си имат string елементи)
     FreeGenres(genres, genresCount);
     FreeBooks(books, booksCount);
     FreePatrons(patrons, patronsCount);
@@ -149,8 +153,10 @@ int main(void)
 //Метод за главна функционалност
 bool HandleUserActions(void)
 {
+    //Взимаме името на потребителя
     bool ifPatronAlreadyExists = true;
     string patronName = get_string("Enter your name: ");
+    //Ако не го намираме в системата, добавяме нов потребител
     if(!FindIfPatronExists(patronName))
     {
         patronName = AddPatron();
@@ -162,6 +168,8 @@ bool HandleUserActions(void)
         ifPatronAlreadyExists = false;
     }
 
+    //Ако е намерен в системата проверяваме дали има направена резервация
+    //Ако има, негов ред е да я вземе и в момента не си е взел книга, я взима.
     if(ifPatronAlreadyExists)
     {
         struct Patron *patron = FindPatron(patronName);
@@ -183,6 +191,7 @@ bool HandleUserActions(void)
         }
     }
 
+    //Разбираме каква операция иска да извърши потребителят
     int choice = GetMenuChoice();
 
     if(choice == 1)
@@ -222,22 +231,26 @@ bool HandleUserActions(void)
 //Показване на базова информация (при всяко стартиране на програмата)
 bool ShowInfo(void)
 {
+    //Отваряме файла в режим четене
     FILE *file = fopen("info.txt", "r");
     if (!file)
     {
         return false;
     }
 
+    //Ред по ред прочитаме файла
     char line[256];
     while (fgets(line, sizeof(line), file))
     {
         printf("%s", line);
     }
 
+    //Затваряме го
     fclose(file);
     return true;
 }
 
+//Метод, с който се взима желаната операция от потребител
 int GetMenuChoice(void)
 {
     int choice;
@@ -261,7 +274,7 @@ int GetMenuChoice(void)
         }
         else
         {
-            printf("Error: Invalid input! Please enter a number between 1 and 6.\n\n");
+            printf("Error: Invalid input! Please enter a number between 1 and 7.\n\n");
         }
     }
 }
@@ -272,6 +285,8 @@ void EndProgram(void)
 }
 
 //Жанр
+
+//Показваме всички жанрове
 void ShowAllGenres(void)
 {
     printf("Genres:\n");
@@ -281,6 +296,7 @@ void ShowAllGenres(void)
     }
 }
 
+//Взимаме идентификатор на жанр по негово име
 int GetGenreId(string genreName)
 {
     int genreId = 0;
@@ -296,6 +312,8 @@ int GetGenreId(string genreName)
 }
 
 //Книга
+
+//Добавяме книга
 void AddBook(void)
 {
     if (booksCount >= MAX_BOOKS)
@@ -344,6 +362,7 @@ void AddBook(void)
     printf("Book \"%s\" added successfully!\n", newBook.BookTitle);
 }
 
+//Показване на всички книги
 void ShowBooks(void)
 {
     for(int i = 0; i < booksCount; i++)
@@ -352,6 +371,7 @@ void ShowBooks(void)
     }
 }
 
+//Намираме книга по нейното име
 struct Book* FindBook(string bookTitle)
 {
     if(!FindIfBookExists(bookTitle))
@@ -371,6 +391,7 @@ struct Book* FindBook(string bookTitle)
     return NULL;
 }
 
+//Намираме име на книга по идентификатор
 string GetBookTitle(int bookId)
 {
     for(int i = 0; i < booksCount; i++)
@@ -384,6 +405,7 @@ string GetBookTitle(int bookId)
     return "";
 }
 
+//Намираме дали дадено заглавие на книга съществува
 bool FindIfBookExists(string bookTitle)
 {
     for(int i = 0; i < booksCount; i++)
@@ -396,20 +418,24 @@ bool FindIfBookExists(string bookTitle)
     return false;
 }
 
+//Метод за взимане на книга
 void CheckOutBook(string bookTitle, struct Patron *patron)
 {
+    //Трябва потребителят да е върнал книга преди да вземе нова
     if(patron->HasCheckedOutBook)
     {
         printf("First you must return the book you have borrowed and then you can borrow other book\n");
         return;
     }
 
+    //Намираме желаната книга
     struct Book *book = FindBook(bookTitle);
     if(book == NULL)
     {
         return;
     }
 
+    //Ако книгата е вече взета, проверяваме дали потребителят може да я резервира
     if(book->IsCheckedOut)
     {
         printf("The book is already borrowed\n");
@@ -444,6 +470,7 @@ void CheckOutBook(string bookTitle, struct Patron *patron)
         }
     }
 
+    //Взима книгата
     books[(book->Id - 1)].IsCheckedOut = true;
     books[(book->Id - 1)].CountOfCheckouts++;
     if(!SaveBooks())
@@ -463,6 +490,7 @@ void CheckOutBook(string bookTitle, struct Patron *patron)
     printf("You have successfully checked out the book \"%s\". \n", book->BookTitle);
 }
 
+//Метод за връщане на книга
 void ReturnBook(string patronName)
 {
     struct Patron *patron = FindPatron(patronName);
@@ -495,6 +523,7 @@ void ReturnBook(string patronName)
     printf("You have successfully returned the book \"%s\". \n", bookTitle);
 }
 
+//Показваме само заглавията на книгите
 void ShowBookTitles(void)
 {
     for(int i = 0; i < booksCount; i++)
@@ -503,6 +532,8 @@ void ShowBookTitles(void)
     }
 }
 
+//Метод, който се използва във функцията qsort
+//По този начин книгите се сравняват две по две и програмата преценя как да ги нареди в списъка
 int CompareBooksByCheckouts(const void *a, const void *b)
 {
     const struct Book *bookA = (const struct Book *)a;
@@ -514,6 +545,7 @@ int CompareBooksByCheckouts(const void *a, const void *b)
     return 0;
 }
 
+//Показваме статистика - книги, наредени по броя на взимане
 void ShowBooksStatistics(void)
 {
     struct Book sortedBooks[MAX_BOOKS];
@@ -531,6 +563,7 @@ void ShowBooksStatistics(void)
     }
 }
 
+//Показва всички книги по даден жанр
 void ShowBooksByGenreName(void)
 {
     ShowAllGenres();
@@ -552,6 +585,7 @@ void ShowBooksByGenreName(void)
     }
 }
 
+//Проверява дали книгата с даден идентификатор е взета
 bool IsBookChekedOut(int bookId)
 {
     for(int i = 0; i < booksCount; i++)
@@ -566,6 +600,8 @@ bool IsBookChekedOut(int bookId)
 }
 
 //Потребители
+
+//Метод за добавяне на потребители
 string AddPatron(void)
 {
     if (patronsCount >= MAX_PATRONS)
@@ -589,6 +625,7 @@ string AddPatron(void)
         name = get_string("Enter the patron name: ");
     }
 
+    //Тъй като string е масив за по-безопасно копирам стойността на name в newPatron.PatronName
     snprintf(newPatron.PatronName, sizeof(newPatron.PatronName), "%s", name);
     newPatron.HasCheckedOutBook = false;
     newPatron.ReturnedBooksCount = 0;
@@ -607,6 +644,7 @@ string AddPatron(void)
     return name;
 }
 
+//Намираме дали потребител със същото име съществува
 bool FindIfPatronExists(string patronName)
 {
     for(int i = 0; i < patronsCount; i++)
@@ -619,6 +657,7 @@ bool FindIfPatronExists(string patronName)
     return false;
 }
 
+//Намираме даден потребител по име
 struct Patron* FindPatron(string patronName)
 {
     if(!FindIfPatronExists(patronName))
@@ -639,6 +678,8 @@ struct Patron* FindPatron(string patronName)
 }
 
 //Резервация
+
+//Намираме дали потребител с даден идентификатор е резервирал книга
 int FindIfPatronHasReservedBook(int patronId)
 {
     for(int i = 0; i < reservationsCount; i++)
@@ -651,6 +692,7 @@ int FindIfPatronHasReservedBook(int patronId)
     return 0;
 }
 
+//Намираме дали потребител вече направил резервация за тази книга
 bool FindIfPatronAlreadyHasMadeReservationForABook(int patronId, int bookId)
 {
     for(int i = 0; i < reservationsCount; i++)
@@ -664,6 +706,7 @@ bool FindIfPatronAlreadyHasMadeReservationForABook(int patronId, int bookId)
     return false;
 }
 
+//Проверяваме дали е ред на дадения потребител да вземе резервираната книга
 bool FindIfIsPatronTurnToBorrowReservedBook(int bookId, int patronId)
 {
     for(int i = 0; i < reservationsCount; i++)
@@ -681,6 +724,7 @@ bool FindIfIsPatronTurnToBorrowReservedBook(int bookId, int patronId)
     return false;
 }
 
+//Резервиране на книга
 void ReserveBook(int bookId, int patronId)
 {
     if (reservationsCount >= MAX_RESERVATIONS)
@@ -705,6 +749,7 @@ void ReserveBook(int bookId, int patronId)
     printf("The book is reserved. \n");
 }
 
+//Премахваме резервация
 void RemoveReservation(int bookId, int patronId)
 {
     struct Reservation reservationsToStay[MAX_RESERVATIONS];
@@ -747,7 +792,7 @@ bool LoadGenres(void)
     {
         line[strcspn(line, "\n")] = 0;
 
-        if (strlen(line) == 0) continue; // пропуска празни редове
+        if (strlen(line) == 0) continue;
 
         char *id = strtok(line, "|");
         char *name = strtok(NULL, "|");
@@ -954,9 +999,16 @@ void FreePatrons(struct Patron patronsArray[], int count)
 
 char* my_strdup(const char* s)
 {
-    if (s == NULL) return NULL;
+    if (s == NULL) {
+        return NULL;
+    }
+
     char* copy = malloc(strlen(s) + 1);
-    if (copy == NULL) return NULL;
+
+    if (copy == NULL){
+        return NULL;
+    }
+
     strcpy(copy, s);
     return copy;
 }
